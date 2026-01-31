@@ -148,31 +148,31 @@ Cursor Updates
 
 4. Performance Decisions
 
-      1. Several optimizations were made to ensure smooth real-time performance
-  
-      2. Optimistic Rendering
-  
-      3. Clients draw immediately without waiting for server responses
-  
-      4. Provides low-latency user experience
-  
-      5. Event Streaming
-  
-      6. Only incremental stroke points are sent
-  
-      7. Avoids sending large payloads
-  
-      8. Stroke-Based State
-  
-      9. Canvas is represented as structured stroke data instead of pixels
-  
-      10. Enables efficient redraw and undo/redo
-  
-      11. Selective Redraw  
-  
-      12. Full redraw happens only on state changes (undo, redo, refresh)
-  
-      13. Cursor movement does not trigger canvas redraw
+       1. Several optimizations were made to ensure smooth real-time performance
+   
+       2. Optimistic Rendering
+   
+       3. Clients draw immediately without waiting for server responses
+   
+       4. Provides low-latency user experience
+   
+       5. Event Streaming
+   
+       6. Only incremental stroke points are sent
+   
+       7. Avoids sending large payloads
+   
+       8. Stroke-Based State
+   
+       9. Canvas is represented as structured stroke data instead of pixels
+   
+       10. Enables efficient redraw and undo/redo
+   
+       11. Selective Redraw  
+   
+       12. Full redraw happens only on state changes (undo, redo, refresh)
+   
+       13. Cursor movement does not trigger canvas redraw
 
 
 
@@ -181,18 +181,18 @@ Cursor Updates
 
 5. Conflict Handling
 
-    1. Simultaneous Drawing
-
-    2. Multiple users can draw on the same area at the same time
-
-    3. Strokes are applied in the order received by the server
-
-    4. Conflict Resolution Strategy
-
-    5. Server serializes incoming events
-
-    6. Later strokes naturally appear on top of earlier ones
-
-    7. No locking is required, keeping the system responsive
-
-    8. his approach ensures consistency while allowing free collaboration.
+     1. Simultaneous Drawing
+ 
+     2. Multiple users can draw on the same area at the same time
+ 
+     3. Strokes are applied in the order received by the server
+ 
+     4. Conflict Resolution Strategy
+ 
+     5. Server serializes incoming events
+ 
+     6. Later strokes naturally appear on top of earlier ones
+ 
+     7. No locking is required, keeping the system responsive
+ 
+     8. his approach ensures consistency while allowing free collaboration.
