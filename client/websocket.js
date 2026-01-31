@@ -1,4 +1,4 @@
-const socket = new WebSocket("ws://localhost:3001");
+const socket = new WebSocket("https://flam-assignment-mbnl.onrender.com");
 
 export function send(data) {
   socket.send(JSON.stringify(data));
