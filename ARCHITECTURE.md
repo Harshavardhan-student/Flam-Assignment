@@ -38,6 +38,9 @@ authoritative source of truth.
 
 
 
+
+
+
 2. WebSocket Protocol
 
 All communication between clients and the server happens through WebSockets.
@@ -111,6 +114,9 @@ Cursor Updates
 
 
 
+
+
+
 3. Undo / Redo Strategy
 
   Undo and redo are implemented as global, server-authoritative operations.
@@ -134,6 +140,9 @@ Cursor Updates
      8. Ensures deterministic ordering of operations
   
      9. Clients never modify stroke history locally.
+
+
+
 
 
 
@@ -164,6 +173,8 @@ Cursor Updates
       12. Full redraw happens only on state changes (undo, redo, refresh)
   
       13. Cursor movement does not trigger canvas redraw
+
+
 
 
 
