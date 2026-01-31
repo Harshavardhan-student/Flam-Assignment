@@ -14,27 +14,30 @@ authoritative source of truth.
 
 ### Drawing Data Flow
 
-User draws on canvas
-             ↓
-Client captures pointer events
-             ↓
-Client renders stroke locally (optimistic rendering)
-             ↓
-Client sends stroke events via WebSocket
-             ↓
-Server receives and processes events
-             ↓
-Server broadcasts events to all connected clients
-             ↓
-Other clients render the stroke in real time
-             ↓
-    Canvas State Synchronization
-             ↓
-Client connects / refreshes
-             ↓
-Server sends full canvas state
-             ↓
-Client redraws canvas from stroke history
+                                              User draws on canvas
+                                                           ↓
+                                              Client captures pointer events
+                                                           ↓
+                                              Client renders stroke locally (optimistic rendering)
+                                                           ↓
+                                              Client sends stroke events via WebSocket
+                                                           ↓
+                                              Server receives and processes events
+                                                           ↓
+                                              Server broadcasts events to all connected clients
+                                                           ↓
+                                              Other clients render the stroke in real time
+                                                           ↓
+                                                  Canvas State Synchronization
+                                                           ↓
+                                              Client connects / refreshes
+                                                           ↓
+                                              Server sends full canvas state
+                                                           ↓
+                                              Client redraws canvas from stroke history
+
+
+
 
 
 
@@ -111,76 +114,85 @@ Cursor Updates
 
 
 
+
+
+
 3. Undo / Redo Strategy
 
   Undo and redo are implemented as global, server-authoritative operations.
   
   Working:-
 
-   1. Client sends an undo or redo request
+     1. Client sends an undo or redo request
+  
+     2. Server updates the global stroke history
+  
+     3. Server broadcasts the updated canvas state
+  
+     4. All clients redraw the canvas from the new state
+  
+     5. server-authoritative
+  
+     6. Prevents divergence between clients
+  
+     7. Allows one user to undo another user’s drawing
+  
+     8. Ensures deterministic ordering of operations
+  
+     9. Clients never modify stroke history locally.
 
-   2. Server updates the global stroke history
 
-   3. Server broadcasts the updated canvas state
 
-   4. All clients redraw the canvas from the new state
-
-   5. server-authoritative
-
-   6. Prevents divergence between clients
-
-   7. Allows one user to undo another user’s drawing
-
-   8. Ensures deterministic ordering of operations
-
-   9. Clients never modify stroke history locally.
 
 
 
 4. Performance Decisions
 
-    1. Several optimizations were made to ensure smooth real-time performance
+       1. Several optimizations were made to ensure smooth real-time performance
+   
+       2. Optimistic Rendering
+   
+       3. Clients draw immediately without waiting for server responses
+   
+       4. Provides low-latency user experience
+   
+       5. Event Streaming
+   
+       6. Only incremental stroke points are sent
+   
+       7. Avoids sending large payloads
+   
+       8. Stroke-Based State
+   
+       9. Canvas is represented as structured stroke data instead of pixels
+   
+       10. Enables efficient redraw and undo/redo
+   
+       11. Selective Redraw  
+   
+       12. Full redraw happens only on state changes (undo, redo, refresh)
+   
+       13. Cursor movement does not trigger canvas redraw
 
-    2. Optimistic Rendering
 
-    3. Clients draw immediately without waiting for server responses
 
-    4. Provides low-latency user experience
 
-    5. Event Streaming
 
-    6. Only incremental stroke points are sent
-
-    7. Avoids sending large payloads
-
-    8. Stroke-Based State
-
-    9. Canvas is represented as structured stroke data instead of pixels
-
-    10. Enables efficient redraw and undo/redo
-
-    11. Selective Redraw  
-
-    12. Full redraw happens only on state changes (undo, redo, refresh)
-
-    13. Cursor movement does not trigger canvas redraw
-
-    These decisions balance performance with correctness.
 
 5. Conflict Handling
 
-    1. Simultaneous Drawing
-
-    2. Multiple users can draw on the same area at the same time
-
-    3. Strokes are applied in the order received by the server
-
-    4. Conflict Resolution Strategy
-
-    5. Server serializes incoming events
-
-    6. Later strokes naturally appear on top of earlier ones
-
-    7. No locking is required, keeping the system responsive
-
-    8. his approach ensures consistency while allowing free collaboration.
+     1. Simultaneous Drawing
+ 
+     2. Multiple users can draw on the same area at the same time
+ 
+     3. Strokes are applied in the order received by the server
+ 
+     4. Conflict Resolution Strategy
+ 
+     5. Server serializes incoming events
+ 
+     6. Later strokes naturally appear on top of earlier ones
+ 
+     7. No locking is required, keeping the system responsive
+ 
+     8. his approach ensures consistency while allowing free collaboration.
