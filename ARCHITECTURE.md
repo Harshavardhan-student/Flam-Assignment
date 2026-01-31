@@ -117,55 +117,56 @@ Cursor Updates
   
   Working:-
 
-   1. Client sends an undo or redo request
-
-   2. Server updates the global stroke history
-
-   3. Server broadcasts the updated canvas state
-
-   4. All clients redraw the canvas from the new state
-
-   5. server-authoritative
-
-   6. Prevents divergence between clients
-
-   7. Allows one user to undo another user’s drawing
-
-   8. Ensures deterministic ordering of operations
-
-   9. Clients never modify stroke history locally.
+     1. Client sends an undo or redo request
+  
+     2. Server updates the global stroke history
+  
+     3. Server broadcasts the updated canvas state
+  
+     4. All clients redraw the canvas from the new state
+  
+     5. server-authoritative
+  
+     6. Prevents divergence between clients
+  
+     7. Allows one user to undo another user’s drawing
+  
+     8. Ensures deterministic ordering of operations
+  
+     9. Clients never modify stroke history locally.
 
 
 
 4. Performance Decisions
 
-    1. Several optimizations were made to ensure smooth real-time performance
+      1. Several optimizations were made to ensure smooth real-time performance
+  
+      2. Optimistic Rendering
+  
+      3. Clients draw immediately without waiting for server responses
+  
+      4. Provides low-latency user experience
+  
+      5. Event Streaming
+  
+      6. Only incremental stroke points are sent
+  
+      7. Avoids sending large payloads
+  
+      8. Stroke-Based State
+  
+      9. Canvas is represented as structured stroke data instead of pixels
+  
+      10. Enables efficient redraw and undo/redo
+  
+      11. Selective Redraw  
+  
+      12. Full redraw happens only on state changes (undo, redo, refresh)
+  
+      13. Cursor movement does not trigger canvas redraw
 
-    2. Optimistic Rendering
 
-    3. Clients draw immediately without waiting for server responses
 
-    4. Provides low-latency user experience
-
-    5. Event Streaming
-
-    6. Only incremental stroke points are sent
-
-    7. Avoids sending large payloads
-
-    8. Stroke-Based State
-
-    9. Canvas is represented as structured stroke data instead of pixels
-
-    10. Enables efficient redraw and undo/redo
-
-    11. Selective Redraw  
-
-    12. Full redraw happens only on state changes (undo, redo, refresh)
-
-    13. Cursor movement does not trigger canvas redraw
-
-    These decisions balance performance with correctness.
 
 5. Conflict Handling
 
