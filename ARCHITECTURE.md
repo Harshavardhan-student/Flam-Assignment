@@ -14,27 +14,27 @@ authoritative source of truth.
 
 ### Drawing Data Flow
 
-User draws on canvas
-             ↓
-Client captures pointer events
-             ↓
-Client renders stroke locally (optimistic rendering)
-             ↓
-Client sends stroke events via WebSocket
-             ↓
-Server receives and processes events
-             ↓
-Server broadcasts events to all connected clients
-             ↓
-Other clients render the stroke in real time
-             ↓
-    Canvas State Synchronization
-             ↓
-Client connects / refreshes
-             ↓
-Server sends full canvas state
-             ↓
-Client redraws canvas from stroke history
+                                              User draws on canvas
+                                                           ↓
+                                              Client captures pointer events
+                                                           ↓
+                                              Client renders stroke locally (optimistic rendering)
+                                                           ↓
+                                              Client sends stroke events via WebSocket
+                                                           ↓
+                                              Server receives and processes events
+                                                           ↓
+                                              Server broadcasts events to all connected clients
+                                                           ↓
+                                              Other clients render the stroke in real time
+                                                           ↓
+                                                  Canvas State Synchronization
+                                                           ↓
+                                              Client connects / refreshes
+                                                           ↓
+                                              Server sends full canvas state
+                                                           ↓
+                                              Client redraws canvas from stroke history
 
 
 
