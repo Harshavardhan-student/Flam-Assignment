@@ -1,0 +1,22 @@
+{
+  "name": "collaborative-canvas",
+  "version": "1.0.0",
+  "description": "Real-time collaborative drawing canvas using HTML Canvas and WebSockets",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "client": "npx serve client"
+  },
+  "keywords": [
+    "canvas",
+    "websocket",
+    "real-time",
+    "collaboration"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.2.1",
+    "ws": "^8.19.0"
+  }
+}

@@ -1,0 +1,85 @@
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar {
+  padding: 8px;
+  background: #eee;
+}
+
+.toolButtons button.active {
+  background: #444;
+  color: #fff;
+}
+
+.usersList {
+  display: inline-block;
+  margin-left: 12px;
+  vertical-align: middle;
+}
+
+.usersList .user {
+  display: inline-block;
+  padding: 2px 6px;
+  margin-right: 6px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 12px;
+}
+
+.canvasWrap {
+  position: relative;
+  flex: 1;
+}
+
+.toolButtons button {
+  padding: 6px 10px;
+  margin-right: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+
+.toolButtons button#eraserBtn {
+  font-weight: bold;
+  background: #f7f7f7;
+  border-color: #bbb;
+}
+
+.toolButtons button#brushBtn.active {
+  background: #444;
+  color: #fff;
+}
+
+.toolButtons button#eraserBtn.active {
+  background: #d9534f;
+  color: #fff;
+}
+
+canvas#canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: calc(100% - 50px);
+}
+
+canvas#cursorCanvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none; /* allow pointer events to pass through */
+  width: 100%;
+  height: calc(100% - 50px);
+}
+
+canvas {
+  flex: 1;
+  border: 1px solid #ccc;
+  cursor: crosshair;
+}

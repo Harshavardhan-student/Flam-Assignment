@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Collaborative Canvas</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="toolbar">
+    <input type="color" id="colorPicker" />
+    <input type="range" id="strokeWidth" min="1" max="20" value="4" />
+    <label for="eraserSize">Eraser size</label>
+    <select id="eraserSize">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="50">50</option>
+    </select>
+    <div class="toolButtons">
+      <button id="brushBtn" class="active">Brush</button>
+      <button id="eraserBtn">🧽</button>
+    </div>
+    <div id="usersList" class="usersList"></div>
+    <button id="undoBtn">Undo</button>
+    <button id="redoBtn">Redo</button>
+    <button id="clearBtn">Clear Canvas</button>
+  </div>
+
+  <div class="canvasWrap">
+    <canvas id="canvas"></canvas>
+    <canvas id="cursorCanvas" class="cursorCanvas"></canvas>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
