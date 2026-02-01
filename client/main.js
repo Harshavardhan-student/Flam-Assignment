@@ -18,12 +18,11 @@ let localColor = null;
 let localName = null;
 let currentTool = "brush";
 
-// disallow client-side color selection; server assigns user color
+
 colorPicker.disabled = true;
 
-// prompt for a display name (no auth). store in localStorage for session convenience
+
 function getLocalName() {
-  // prompt for a display name (no auth). Keep name in memory only.
   let name = "";
   while (!name) {
     name = (prompt("Enter display name:") || "").trim();
@@ -42,7 +41,7 @@ function getToolState() {
 }
 
 setupDrawing(canvas, ctx, getToolState, send);
-// ensure initial composite mode matches starting tool
+
 setTool(currentTool);
 // send user:join after socket opens
 localName = getLocalName();
@@ -54,7 +53,6 @@ onMessage((data) => {
   if (data.type === "canvas:state") {
     replaceCanvasState(ctx, data.strokes);
   } else if (data.type === "user:init") {
-    // server accepted join and returned authoritative identity + current state
     localUserId = data.userId;
     localColor = data.color;
     localName = data.name;
@@ -93,6 +91,5 @@ document.getElementById("redoBtn").onclick = () => {
 };
 
 document.getElementById("clearBtn").onclick = () => {
-  // Ask server to clear authoritative canvas; server will broadcast empty state
   send({ type: "canvas:clear" });
 };
