@@ -12,11 +12,8 @@ const wss = new WebSocketServer({ server });
 const strokes = [];
 const redoStack = [];
 
-// userId -> { id, name?, color }
 const users = new Map();
 
-// Curated base palette (colorblind-safe, high contrast). We'll expand
-// variants deterministically to support more simultaneous users.
 const basePalette = [
   "#E53935", // red
   "#1E88E5", // blue
@@ -30,7 +27,6 @@ const basePalette = [
   "#D81B60"  // pink
 ];
 
-// Create expanded palette by generating a few lightness variants for each base
 function hexToHsl(hex) {
   const r = parseInt(hex.slice(1,3), 16) / 255;
   const g = parseInt(hex.slice(3,5), 16) / 255;
@@ -93,25 +89,19 @@ wss.on("connection", (ws) => {
   const color = pickColor();
   users.set(userId, { id: userId, color });
   ws.userId = userId;
-
-  // do not finalize user info until client sends its chosen display name
-  // notify others about current (placeholder) users list
+  
   broadcastUsers();
 
   ws.on("message", (msg) => {
     const data = JSON.parse(msg.toString());
 
     if (data.type === "user:join") {
-      // client informs server of desired display name (no auth)
       const name = String(data.name || "").slice(0, 32) || "Anonymous";
       const entry = users.get(ws.userId) || {};
       entry.name = name;
       users.set(ws.userId, entry);
 
-      // reply with full init message (server assigns color/userId)
       ws.send(JSON.stringify({ type: "user:init", userId: ws.userId, name: entry.name, color: entry.color, users: Array.from(users.values()), strokes }));
-
-      // broadcast updated users list to everyone
       broadcastUsers();
       return;
     }
@@ -123,16 +113,13 @@ wss.on("connection", (ws) => {
       });
 
       if (data.type === "stroke:end") {
-        // Enforce server-assigned color for stroke (server is authoritative)
+        // Enforce server-assigned color for stroke
         const user = users.get(ws.userId) || {};
         if (data.stroke) data.stroke.color = user.color || data.stroke.color;
         // Store the completed stroke in the server-authoritative history
         strokes.push(data.stroke);
         // Clear redo buffer on new action
         redoStack.length = 0;
-
-        // After a stroke is finished, broadcast the authoritative canvas state
-        // so all clients replace their local stroke history with the server's.
         broadcast();
       }
 
@@ -172,10 +159,8 @@ wss.on("connection", (ws) => {
     }
 
     if (data.type === "canvas:clear") {
-      // Clear authoritative stroke history and redo stack
       strokes.length = 0;
       redoStack.length = 0;
-      // Broadcast empty canvas state to all clients
       broadcast();
       return;
     }
